@@ -1,0 +1,186 @@
+<!-- {% load static %} -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel AI Agent</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.nav-link[href="#"]').addEventListener('click', function(event) {
+                event.preventDefault();
+                document.getElementById('manage-trip-buttons').style.display = 'block';
+            });
+
+            document.getElementById('book-trip-btn').addEventListener('click', function() {
+                document.getElementById('book-trip-form').style.display = 'block';
+                document.getElementById('modify-trip-form').style.display = 'none';
+                document.getElementById('cancel-trip-form').style.display = 'none';
+            });
+
+            document.getElementById('modify-trip-btn').addEventListener('click', function() {
+                document.getElementById('book-trip-form').style.display = 'none';
+                document.getElementById('modify-trip-form').style.display = 'block';
+                document.getElementById('cancel-trip-form').style.display = 'none';
+            });
+
+            document.getElementById('cancel-trip-btn').addEventListener('click', function() {
+                document.getElementById('book-trip-form').style.display = 'none';
+                document.getElementById('modify-trip-form').style.display = 'none';
+                document.getElementById('cancel-trip-form').style.display = 'block';
+            });
+        });
+    </script>
+</head>
+<style>
+    .header {
+        background-color: #0281ff;
+        color: white;
+        padding: 20px;
+    }
+    .nav-item:hover {
+        border: 1px solid #ffffff;
+    }
+    .fluid-container {
+        margin: 20px;
+        border: 2px solid black;
+        height: 100vh;
+        padding: 40px
+    }
+    #manage-trip-buttons {
+        display: none;
+        margin-top: 20px;
+    }
+    .form-container {
+        display: none;
+        margin-top: 20px;
+    }
+    
+</style>
+<body>
+    {% block content %}
+    <!-- header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h3>AI Travel Assistant</h3>
+                    <p>we are online to assist you</p>
+                </div>
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Manage Trip</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Facilities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Payment Options</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Travel Tip</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Package Details</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">Customer Support</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div class="fluid-container">
+        <div id="manage-trip-buttons" class="text-center">
+            <button id="book-trip-btn" class="btn btn-primary m-2">Book Trip</button>
+            <button id="modify-trip-btn" class="btn btn-warning m-2">Modify Trip</button>
+            <button id="cancel-trip-btn" class="btn btn-danger m-2">Cancel Trip</button>
+        </div>
+
+        <div id="book-trip-form" class="form-container booktrip">
+            <form method="post" action="{% url 'booktrip_create' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user"></i> Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone"><i class="fas fa-phone"></i> Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="destination"><i class="fas fa-map-marker-alt"></i> Destination</label>
+                    <input type="text" class="form-control" id="destination" name="destination" required>
+                </div>
+                <div class="form-group">
+                    <label for="date"><i class="fas fa-calendar-alt"></i> Date</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <div id="modify-trip-form" class="form-container">
+            <form method="post" action="{% url 'booktrip_update' pk=1 %}"> <!-- Placeholder pk value -->
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="name"><i class="fas fa-user"></i> Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone"><i class="fas fa-phone"></i> Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="destination"><i class="fas fa-map-marker-alt"></i> Destination</label>
+                    <input type="text" class="form-control" id="destination" name="destination" required>
+                </div>
+                <div class="form-group">
+                    <label for="date"><i class="fas fa-calendar-alt"></i> Date</label>
+                    <input type="date" class="form-control" id="date" name="date" required>
+                </div>
+                <button type="submit" class="btn btn-warning">Submit</button>
+            </form>
+        </div>
+
+        <div id="cancel-trip-form" class="form-container">
+            <form method="post" action="{% url 'booktrip_cancel' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    {% endblock %}
+
+</body>
+</html>
+
